@@ -11,8 +11,8 @@ import axios from 'axios';
  * @returns {Promise} - API呼び出しの結果
  */
 
-// const apiKey = import.meta.env.VITE_GOOGLE_BOOKS_API_KEY
-const apiKey = "AIzaSyDNIRp2-OYiZ2mI4qLFEtXbHDdA1mN2cm8";
+const apiKey = import.meta.env.VITE_GOOGLE_BOOKS_API_KEY;
+// const apiKey = "AIzaSyDNIRp2-OYiZ2mI4qLFEtXbHDdA1mN2cm8";
 export const searchByIsbn = async(isbn) => {
     if (!apiKey) {
         console.warn("Google Books API Key is missing in environment variables.");
@@ -29,6 +29,7 @@ export const searchByIsbn = async(isbn) => {
         const response = await axios.get(url);
         if (response.data.totalItems > 0) {
             const data = response.data.items[0].volumeInfo;
+            // console.log("Fetched book data:", data);
             return {
                 title: data.title || "",
                 authors: data.authors || [],

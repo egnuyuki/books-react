@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Input from "./Input";
-import useForm from "../hooks/FormHooks";
 
-const Form = () => {
-  const { formData, errors, isLoading, handleInputChange, handleSearch } = useForm();
+const Form = ({ formData, errors, isLoading, handleInputChange, handleSearch }) => {
   return (
     <form className="space-y-4">
       <Input
@@ -69,7 +67,7 @@ const Form = () => {
               送信中...
             </div>
           ) : (
-            "登録する"
+            "検索する"
           )}
         </button>
       </div>

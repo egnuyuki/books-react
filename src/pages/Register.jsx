@@ -1,11 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Form from "../components/Form";
 import useForm from "../hooks/FormHooks";
 // import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const { searchData, setSearchData } = useForm();
+  const {
+    formData,
+    errors,
+    isLoading,
+    handleInputChange,
+    handleSearch,
+    searchData,
+    setSearchData,
+  } = useForm();
+
   const [error, setError] = useState(null);
+
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex items-center mb-4">
@@ -21,7 +31,7 @@ const Register = () => {
             戻る
           </button>
         ) : (
-          <div></div>
+          <div />
         )}
       </div>
       {error && (
@@ -32,7 +42,13 @@ const Register = () => {
       {searchData ? (
         <Confirm searchData={searchData} />
       ) : (
-        <Form setSearchData={setSearchData} />
+        <Form
+          formData={formData}
+          errors={errors}
+          isLoading={isLoading}
+          handleInputChange={handleInputChange}
+          handleSearch={handleSearch}
+        />
       )}
     </div>
   );

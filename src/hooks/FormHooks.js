@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { searchByIsbn } from "../services/googleBooksService";
 
 const useForm = () => {
     const [formData, setFormData] = useState({
@@ -65,8 +66,14 @@ const useForm = () => {
         setIsLoading(true);
         // ここでAPI呼び出しなどの検索処理を実行
         // 例: await api.searchBook(formData);
+        // console.log("検索処理を実行", formData);
+        try {
+            const result = await searchByIsbn(formData.isbn);
+            setSearchData(result);
+        } catch (error) {
+            console.error("検索中にエラーが発生しました:", error);
+        }
         setIsLoading(false);
-        console.log("検索処理を実行", formData);
     };
 
     return {
