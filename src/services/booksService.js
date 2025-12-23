@@ -12,6 +12,7 @@ import {supabase} from '../lib/supabaseClient.js';
  * @returns {Promise} - API呼び出しの結果
  */
 export const create = async(bookData) => {
+    console.log("Creating book with data:", bookData);
   const { data, error } = await supabase
     .from('books')
     .insert([bookData]);

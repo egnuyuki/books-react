@@ -41,7 +41,11 @@ const Register = () => {
         </div>
       )}
       {searchData ? (
-        <Confirm searchData={searchData} />
+        <Confirm
+          searchData={searchData}
+          isLoading={isLoading}
+          formData={formData}
+        />
       ) : (
         <Form
           formData={formData}

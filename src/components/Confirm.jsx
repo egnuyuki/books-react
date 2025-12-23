@@ -1,6 +1,26 @@
 import { useState } from "react";
+import  useDB from "../hooks/dbHooks";
 
-const Confirm = ({ searchData, isLoading, handleRegister }) => {
+const Confirm = ({ searchData, isLoading, formData }) => {
+  const { createBook } = useDB();
+  const data = {
+    isbn_code: formData.isbn,
+    number: formData.number,
+    title: formData.title,
+    authors: searchData.authors,
+    publisher: searchData.publisher,
+    published_date: searchData.publishedDate,
+    cover_url: searchData.thumbnail,
+  };
+  const handleRegister = async () => {
+    try {
+      await createBook(data);
+      console.log("Book registered successfully");
+    } catch (error) {
+      console.error("Error registering book:", error);
+    }
+  };
+
   return (
     <div
       className={`relative inset-0 bg-white p-8 rounded-lg shadow transition-opacity duration-300 flex flex-col sm:flex-row}`}
@@ -31,42 +51,42 @@ const Confirm = ({ searchData, isLoading, handleRegister }) => {
         </p>
         <div className="mt-4">
           <button
-          onClick={handleRegister}
-          disabled={isLoading}
-          className={`w-full mt-4 relative py-2 px-4 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 ${
-            isLoading
-              ? "bg-emerald-200 cursor-not-allowed"
-              : "bg-emerald-500 hover:bg-emerald-700 cursor-pointer"
-          }`}
-        >
-          {isLoading ? (
-            <div className="flex items-center justify-center">
-              <svg
-                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                />
-              </svg>
-              保存中...
-            </div>
-          ) : (
-            "登録する"
-          )}
-        </button>
+            onClick={handleRegister}
+            disabled={isLoading}
+            className={`w-full mt-4 relative py-2 px-4 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 ${
+              isLoading
+                ? "bg-emerald-200 cursor-not-allowed"
+                : "bg-emerald-500 hover:bg-emerald-700 cursor-pointer"
+            }`}
+          >
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+                保存中...
+              </div>
+            ) : (
+              "登録する"
+            )}
+          </button>
         </div>
       </div>
     </div>
