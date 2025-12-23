@@ -29,7 +29,7 @@ export const searchByIsbn = async(isbn) => {
         const response = await axios.get(url);
         if (response.data.totalItems > 0) {
             const data = response.data.items[0].volumeInfo;
-            // console.log("Fetched book data:", data);
+            console.log("Fetched book data:", data);
             return {
                 title: data.title || "",
                 authors: data.authors || [],
