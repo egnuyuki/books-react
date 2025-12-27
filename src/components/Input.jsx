@@ -3,7 +3,7 @@ import { AlertCircle } from 'lucide-react';
 const Input = ({ label, value, onChange, error, placeholder, required, type = "text" }) => {
   return (
     <div className="mb-4">
-      <label className="block text-sm font-semibold text-gray-700 mb-2">
+      <label className="block text-sm font-semibold text-yellow-50 mb-2">
         {label}
         {required && <span className="text-rose-500 ml-1">*</span>}
       </label>
@@ -15,7 +15,7 @@ const Input = ({ label, value, onChange, error, placeholder, required, type = "t
         className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none transition bg-white ${
           error 
             ? 'border-rose-300 focus:border-rose-500' 
-            : 'border-gray-200 focus:border-emerald-500'
+            : 'border-gray-200 focus:border-yellow-500'
         }`}
       />
       {error && (

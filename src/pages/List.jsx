@@ -105,7 +105,7 @@ const BookItem = ({ book, onDeleted, onUpdated }) => {
               placeholder="タイトル"
             />
             <div className="flex gap-2 mt-2">
-              <button onClick={handleSave} disabled={saving} className="px-3 py-1 rounded bg-emerald-500 text-white">
+              <button onClick={handleSave} disabled={saving} className="px-3 py-1 rounded bg-yellow-500 text-white">
                 {saving ? "保存中..." : "保存"}
               </button>
               <button onClick={() => setEditing(false)} className="px-3 py-1 rounded bg-gray-300">

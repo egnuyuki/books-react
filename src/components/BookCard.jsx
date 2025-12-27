@@ -12,7 +12,7 @@ const BookCard = ({ book, onEdit, onDelete }) => {
   const cover = book.cover_url || book.thumbnail || "/placeholder-book.png";
 
   return (
-    <article className="flex gap-4 p-4 rounded-md bg-white shadow-lg hover:shadow-xl transition-shadow">
+    <article className="flex gap-4 p-4 rounded-md bg-yellow-50 shadow-lg hover:shadow-xl transition-shadow">
       <div className="w-24 h-38 shrink-0 bg-gray-100 overflow-hidden rounded">
         <img
           src={cover}
@@ -32,7 +32,7 @@ const BookCard = ({ book, onEdit, onDelete }) => {
             {onEdit && (
               <button
                 onClick={onEdit}
-                className="px-3 py-1 rounded bg-emerald-500 text-white hover:bg-emerald-600"
+                className="px-3 py-1 rounded bg-yellow-500 text-white hover:bg-yellow-600"
               >
                 編集
               </button>
@@ -40,7 +40,7 @@ const BookCard = ({ book, onEdit, onDelete }) => {
             {onDelete && (
               <button
                 onClick={onDelete}
-                className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-600"
+                className="px-3 py-1 rounded bg-rose-500 text-white hover:bg-rose-600"
               >
                 削除
               </button>

@@ -20,7 +20,7 @@ const Register = () => {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex items-center mb-4">
-        <h2 className="text-xl font-bold">書籍登録</h2>
+        <h2 className="text-xl text-yellow-400 font-bold">書籍登録</h2>
         {searchData ? (
           <button
             onClick={() => {

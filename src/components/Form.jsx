@@ -36,10 +36,10 @@ const Form = ({ formData, errors, isLoading, handleInputChange, handleSearch }) 
         <button
           onClick={handleSearch}
           disabled={isLoading}
-          className={`w-full mt-4 relative py-2 px-4 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 ${
+          className={`w-full mt-4 relative py-2 px-4 rounded-md text-yellow-50 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 ${
             isLoading
-              ? "bg-emerald-200 cursor-not-allowed"
-              : "bg-emerald-500 hover:bg-emerald-700 cursor-pointer"
+              ? "bg-orange-200 cursor-not-allowed"
+              : "bg-orange-400 hover:bg-orange-700 cursor-pointer"
           }`}
         >
           {isLoading ? (
