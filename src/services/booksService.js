@@ -76,3 +76,37 @@ export const checkDuplicateByIsbn = async(isbn) => {
 
     return data.length > 0;
 }
+
+/**
+ * 書籍データを更新するAPI関数
+ * @param {Object} bookData - 更新する書籍データ（idを含む）
+ * @returns {Promise} - API呼び出しの結果
+ */
+export const update = async (bookData) => {
+    if (!bookData || (!bookData.id && !bookData.isbn_code)) {
+        throw new Error('更新対象の識別子がありません (id または isbn_code が必要)');
+    }
+
+    const query = supabase.from('books').update({
+        isbn_code: bookData.isbn_code,
+        title: bookData.title,
+        number: bookData.number,
+        authors: bookData.authors,
+        publisher: bookData.publisher,
+        published_date: bookData.published_date || bookData.publishedDate,
+        cover_url: bookData.cover_url || bookData.thumbnail,
+    });
+
+    if (bookData.id) {
+        query.eq('id', bookData.id);
+    } else {
+        query.eq('isbn_code', bookData.isbn_code);
+    }
+
+    const { data, error } = await query.select();
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return data;
+};
