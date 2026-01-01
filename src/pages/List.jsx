@@ -41,6 +41,23 @@ const List = () => {
         );
     }, [books, searchQuery]);
 
+  // Pagination (client-side)
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 5;
+  const totalPages = Math.max(1, Math.ceil(filteredBooks.length / itemsPerPage));
+
+  // Reset to first page on new search
+  useEffect(() => {
+    setPage(1);
+  }, [searchQuery]);
+
+  // Clamp page when filteredBooks change
+  useEffect(() => {
+    if (page > totalPages) setPage(totalPages);
+  }, [filteredBooks.length, totalPages]);
+
+  const paginatedBooks = filteredBooks.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+
   return (
     <div className="max-w-4xl mx-auto">
       {loading && <p className="text-yellow-600">読み込み中...</p>}
@@ -67,10 +84,10 @@ const List = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-4">
-        {filteredBooks.length === 0 && !loading ? (
+        {paginatedBooks.length === 0 && !loading ? (
           <div className="text-yellow-600">検索条件に該当する本がありません。</div>
         ) : (
-          filteredBooks.map((b) => (
+          paginatedBooks.map((b) => (
             <BookItem
               key={b.id || b.isbn_code}
               book={b}
@@ -79,6 +96,27 @@ const List = () => {
             />
           ))
         )}
+      </div>
+
+      {/* Pagination controls */}
+      <div className="mt-6 flex items-center justify-center gap-3">
+        <button
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          disabled={page === 1}
+          className={`px-3 py-1 rounded ${page === 1 ? 'bg-gray-200 text-gray-500' : 'bg-yellow-500 text-white hover:bg-yellow-600'}`}
+        >
+          前へ
+        </button>
+        <div className="text-sm text-yellow-50">
+          {page} / {totalPages}
+        </div>
+        <button
+          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+          disabled={page === totalPages}
+          className={`px-3 py-1 rounded ${page === totalPages ? 'bg-gray-200 text-gray-500' : 'bg-yellow-500 text-white hover:bg-yellow-600'}`}
+        >
+          次へ
+        </button>
       </div>
     </div>
   );
