@@ -2,7 +2,7 @@ import { useState } from "react";
 import  useDB from "../hooks/dbHooks";
 
 const Confirm = ({ searchData, isLoading, formData }) => {
-  const { createBook } = useDB();
+  const { createBook, checkBookDuplicate } = useDB();
   const data = {
     isbn_code: formData.isbn,
     number: formData.number,
@@ -14,6 +14,11 @@ const Confirm = ({ searchData, isLoading, formData }) => {
   };
   const handleRegister = async () => {
     try {
+      const isDuplicate = await checkBookDuplicate(data);
+      if (isDuplicate) {
+        console.log("Book already exists");
+        return;
+      }
       await createBook(data);
       console.log("Book registered successfully");
     } catch (error) {

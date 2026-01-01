@@ -19,7 +19,7 @@ const Input = ({ label, value, onChange, error, placeholder, required, type = "t
         }`}
       />
       {error && (
-        <div className="flex items-center gap-1 mt-2 text-rose-600 text-sm">
+        <div className="flex items-center gap-1 mt-2 text-rose-500 text-sm">
           <AlertCircle className="w-4 h-4" />
           <span>{error}</span>
         </div>

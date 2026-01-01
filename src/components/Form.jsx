@@ -1,14 +1,14 @@
 import React from "react";
 import Input from "./Input";
 
-const Form = ({ formData, errors, isLoading, handleInputChange, handleSearch }) => {
+const Form = ({ formData, formErrors, isLoading, handleInputChange, handleSearch }) => {
   return (
     <form className="space-y-4">
       <Input
         label="ISBNコード"
         value={formData.isbn}
         onChange={(e) => handleInputChange("isbn", e.target.value)}
-        error={errors.isbn}
+        error={formErrors.isbn}
         placeholder="例: 9784774142042"
         required
       />
@@ -17,7 +17,7 @@ const Form = ({ formData, errors, isLoading, handleInputChange, handleSearch }) 
         label="タイトル"
         value={formData.title}
         onChange={(e) => handleInputChange("title", e.target.value)}
-        error={errors.title}
+        error={formErrors.title}
         placeholder="例: リーダブルコード"
         required
       />
@@ -26,7 +26,7 @@ const Form = ({ formData, errors, isLoading, handleInputChange, handleSearch }) 
         label="巻数"
         value={formData.number}
         onChange={(e) => handleInputChange("number", e.target.value)}
-        error={errors.number}
+        error={formErrors.number}
         placeholder="例: 1"
         required
         type="number"

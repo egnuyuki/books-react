@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "../components/Form";
 import Confirm from "../components/Confirm";
 import useForm from "../hooks/FormHooks";
@@ -7,15 +7,20 @@ import useForm from "../hooks/FormHooks";
 const Register = () => {
   const {
     formData,
-    errors,
+    formErrors,
     isLoading,
     handleInputChange,
     handleSearch,
     searchData,
     setSearchData,
+    searchError
   } = useForm();
 
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(searchError);
+
+  useEffect(() => {
+    setError(searchError);
+  }, [searchError]);
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -49,10 +54,11 @@ const Register = () => {
       ) : (
         <Form
           formData={formData}
-          errors={errors}
+          formErrors={formErrors}
           isLoading={isLoading}
           handleInputChange={handleInputChange}
           handleSearch={handleSearch}
+          searchError={searchError}
         />
       )}
     </div>

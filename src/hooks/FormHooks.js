@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { searchByIsbn } from "../services/googleBooksService";
+import { checkDuplicateByIsbn } from "../services/booksService";
 
 const useForm = () => {
     const [formData, setFormData] = useState({
@@ -8,9 +9,10 @@ const useForm = () => {
         title: "",
         number: "",
     });
-    const [errors, setErrors] = useState({});
+    const [formErrors, setFormErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [searchData, setSearchData] = useState(null);
+    const [searchError, setSearchError] = useState(null);
 
     // バリデーション
     const validateForm = () => {
@@ -39,7 +41,7 @@ const useForm = () => {
             newErrors.number = "巻数は1以上の数字で入力してください";
         }
 
-        setErrors(newErrors);
+        setFormErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
@@ -50,8 +52,8 @@ const useForm = () => {
         }));
 
         // エラーをクリア
-        if (errors[field]) {
-            setErrors((prev) => ({
+        if (formErrors[field]) {
+            setFormErrors((prev) => ({
                 ...prev,
                 [field]: "",
             }));
@@ -64,13 +66,20 @@ const useForm = () => {
             return;
         }
         setIsLoading(true);
-        // ここでAPI呼び出しなどの検索処理を実行
-        // 例: await api.searchBook(formData);
-        // console.log("検索処理を実行", formData);
+        setSearchError(null);
         try {
+            // 重複チェックもここで行う
+            const isDuplicate = await checkDuplicateByIsbn(formData.isbn);
+            if (isDuplicate) {
+                setSearchError("このISBNコードの本は既に登録されています。");
+                setSearchData(null);
+                setIsLoading(false);
+                return;
+            }
             const result = await searchByIsbn(formData.isbn);
             setSearchData(result);
         } catch (error) {
+            setSearchError("検索中にエラーが発生しました: " + error.message);
             console.error("検索中にエラーが発生しました:", error);
         }
         setIsLoading(false);
@@ -78,9 +87,10 @@ const useForm = () => {
 
     return {
         formData,
-        errors,
+        formErrors,
         isLoading,
         searchData,
+        searchError,
         setSearchData,
         handleInputChange,
         handleSearch,
