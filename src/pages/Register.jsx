@@ -48,7 +48,6 @@ const Register = () => {
       {searchData ? (
         <Confirm
           searchData={searchData}
-          isLoading={isLoading}
           formData={formData}
         />
       ) : (

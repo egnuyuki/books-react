@@ -1,18 +1,41 @@
 import { create } from "../services/booksService";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const useDB = () => {
-    const createBook = async (bookData) => {
+    const [bookData, setbookData] = useState({
+        isbn_code: "",
+        number: "",
+        title: "",
+        authors: "",
+        publisher: "",
+        published_date: "",
+        cover_url: "",
+    });
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+    const handleRegister = async () => {
+        setIsLoading(true);
         try {
-            const response = await create(bookData);
-            console.log("Book created successfully:", response);
-            return response;
+            await create(bookData);
+            // listページに遷移
+            navigate("/list");
         } catch (error) {
-            console.error("Error creating book:", error);
-            throw error;
+            setError(error.message || "本の登録に失敗しました");
+            console.error("Error registering book:", error);
         }
+        setIsLoading(false);
     };
 
-    return { createBook };
+
+    return { 
+        bookData, 
+        setbookData, 
+        error, 
+        isLoading,
+        handleRegister
+    };
 };
 
 export default useDB;
