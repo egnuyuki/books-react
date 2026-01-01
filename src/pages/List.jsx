@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState, useMemo } from "react";
+import { Search } from 'lucide-react';
 import { list as fetchBooks, remove as deleteBook, update as updateBook } from "../services/booksService";
 import BookCard from "../components/BookCard";
 
@@ -6,6 +7,7 @@ const List = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     let mounted = true;
@@ -31,26 +33,52 @@ const List = () => {
     };
   }, []);
 
+    const filteredBooks = useMemo(() => {
+        return books.filter(book =>
+            book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (Array.isArray(book.authors) ? book.authors.join(" ").toLowerCase() : (book.authors || "").toLowerCase()).includes(searchQuery.toLowerCase()) ||
+            ((book.isbn_code || book.isbn || "") + "").toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [books, searchQuery]);
+
   return (
     <div className="max-w-4xl mx-auto">
-      {loading && <p className="text-gray-600">読み込み中...</p>}
+      {loading && <p className="text-yellow-600">読み込み中...</p>}
       {error && (
         <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">{error}</div>
       )}
 
       {!loading && books.length === 0 && (
-        <p className="text-gray-600">登録された本がありません。</p>
+        <p className="text-yellow-600">登録された本がありません。</p>
       )}
 
+      {/* 検索UI（単一入力・虫眼鏡アイコン） */}
+      <div className="mb-6 max-w-xl">
+        <div className="relative ">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="search"
+              placeholder="タイトル・著者・ISBNで検索"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-yellow-50 rounded-lg shadow-sm border border-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+            />
+          </div>
+      </div>
+
       <div className="grid grid-cols-1 gap-4">
-        {books.map((b) => (
-          <BookItem
-            key={b.id || b.isbn_code}
-            book={b}
-            onDeleted={() => setBooks((prev) => prev.filter((x) => x.id !== b.id && x.isbn_code !== b.isbn_code))}
-            onUpdated={(newData) => setBooks((prev) => prev.map((x) => (x.id === b.id ? { ...x, ...newData } : x)))}
-          />
-        ))}
+        {filteredBooks.length === 0 && !loading ? (
+          <div className="text-yellow-600">検索条件に該当する本がありません。</div>
+        ) : (
+          filteredBooks.map((b) => (
+            <BookItem
+              key={b.id || b.isbn_code}
+              book={b}
+              onDeleted={() => setBooks((prev) => prev.filter((x) => x.id !== b.id && x.isbn_code !== b.isbn_code))}
+              onUpdated={(newData) => setBooks((prev) => prev.map((x) => (x.id === b.id ? { ...x, ...newData } : x)))}
+            />
+          ))
+        )}
       </div>
     </div>
   );
