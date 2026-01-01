@@ -17,12 +17,12 @@ const Layout = ({ children }) => {
         <nav className="w-full py-4 px-4">
           <ul className="flex justify-around text-sm">
             <li>
-              <a href="/" className="text-yellow-50 hover:text-yellow-800">
+              <a href="/" className="text-yellow-50 hover:text-yellow-400">
                 登録
               </a>
             </li>
             <li>
-              <a href="/list" className="text-yellow-50 hover:text-yellow-800">
+              <a href="/list" className="text-yellow-50 hover:text-yellow-400">
                 本棚
               </a>
             </li>
