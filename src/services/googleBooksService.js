@@ -12,7 +12,6 @@ import axios from 'axios';
  */
 
 const apiKey = import.meta.env.VITE_GOOGLE_BOOKS_API_KEY;
-// const apiKey = "AIzaSyDNIRp2-OYiZ2mI4qLFEtXbHDdA1mN2cm8";
 export const searchByIsbn = async(isbn) => {
     if (!apiKey) {
         console.warn("Google Books API Key is missing in environment variables.");
