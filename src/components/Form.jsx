@@ -12,6 +12,7 @@ const Form = ({ formData, formErrors, isLoading, handleInputChange, handleSearch
         error={formErrors.isbn}
         placeholder="例: 9784774142042"
         required
+        type="number"
       />
 
       <Input
