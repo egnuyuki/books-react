@@ -1,5 +1,5 @@
 import React, { use, useEffect, useState, useMemo } from "react";
-import { Search } from 'lucide-react';
+import { Search, ArrowDownUp } from 'lucide-react';
 import { list as fetchBooks, remove as deleteBook, update as updateBook } from "../services/booksService";
 import BookCard from "../components/BookCard";
 
@@ -8,6 +8,7 @@ const List = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortByNumber, setSortByNumber] = useState("desc");
 
   useEffect(() => {
     let mounted = true;
@@ -58,6 +59,13 @@ const List = () => {
 
   const paginatedBooks = filteredBooks.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
+  const soartedPaginatedBooks = searchQuery
+    ? ( sortByNumber === "asc"
+        ? paginatedBooks.sort((a, b) => (a.number || 0) - (b.number || 0))
+        : paginatedBooks.sort((a, b) => (b.number || 0) - (a.number || 0))
+      )
+    : paginatedBooks;
+
   return (
     <div className="max-w-4xl mx-auto">
       {loading && <p className="text-yellow-600">読み込み中...</p>}
@@ -83,11 +91,23 @@ const List = () => {
           </div>
       </div>
 
+      {/* 検索時は巻数（デフォルト降順）でソート */}
+      {searchQuery && soartedPaginatedBooks.length > 0 && (
+        <div className="flex items-center gap-2 mb-4 justify-between">
+          <div className="text-sm text-white">
+            検索結果を巻数（{sortByNumber === "asc" ? "昇順" : "降順"}）で表示しています
+          </div>
+          <button onClick={() => setSortByNumber(sortByNumber === "asc" ? "desc" : "asc")}>
+            <ArrowDownUp className="text-white"/>
+          </button>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 gap-4">
-        {paginatedBooks.length === 0 && !loading ? (
-          <div className="text-yellow-600">検索条件に該当する本がありません。</div>
+        {soartedPaginatedBooks.length === 0 && !loading ? (
+          <div className="text-white">検索条件に該当する本がありません。</div>
         ) : (
-          paginatedBooks.map((b) => (
+          soartedPaginatedBooks.map((b) => (
             <BookItem
               key={b.id || b.isbn_code}
               book={b}
