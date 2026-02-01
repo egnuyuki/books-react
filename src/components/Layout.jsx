@@ -1,4 +1,5 @@
 import Header from "./Header"
+import { Book, FilePlusCorner } from "lucide-react"
 
 const Layout = ({ children }) => {
   return (
@@ -18,12 +19,12 @@ const Layout = ({ children }) => {
           <ul className="flex justify-around text-sm">
             <li>
               <a href="/" className="text-yellow-50 hover:text-yellow-400">
-                登録
+                <FilePlusCorner />
               </a>
             </li>
             <li>
               <a href="/list" className="text-yellow-50 hover:text-yellow-400">
-                本棚
+                <Book/>
               </a>
             </li>
           </ul>
