@@ -23,13 +23,13 @@ const Layout = ({ children }) => {
             <ul className="flex justify-around text-sm">
               <li>
                 <a href="/register" className="text-yellow-50 hover:text-yellow-400 flex flex-col items-center gap-1">
-                  <FilePlusCorner />
+                  <FilePlusCorner className="w-5 h-5" />
                   <span className="text-xs">登録</span>
                 </a>
               </li>
               <li>
                 <a href="/list" className="text-yellow-50 hover:text-yellow-400 flex flex-col items-center gap-1">
-                  <Book/>
+                  <Book className="w-5 h-5" />
                   <span className="text-xs">一覧</span>
                 </a>
               </li>
