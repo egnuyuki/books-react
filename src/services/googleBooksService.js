@@ -34,7 +34,7 @@ export const searchByIsbn = async(isbn) => {
                 authors: data.authors || [],
                 publisher: data.publisher || "",
                 publishedDate: data.publishedDate || "",
-                thumbnail: data.imageLinks ? data.imageLinks.thumbnail : "",
+                thumbnail: data.imageLinks ? convertBookImgUrl(data.imageLinks.thumbnail) : "",
             }
         } else {
             console.warn("No book found with the provided ISBN.");
@@ -44,4 +44,9 @@ export const searchByIsbn = async(isbn) => {
         console.error("Error fetching book data from Google Books API:", error);
         throw error;
     }
+}
+
+const convertBookImgUrl = (url) => {
+    if (!url) return null;
+    return url.replace(/^http:\/\//i, 'https://');
 }
