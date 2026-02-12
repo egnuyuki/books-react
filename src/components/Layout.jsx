@@ -1,7 +1,10 @@
 import Header from "./Header"
 import { Book, FilePlusCorner } from "lucide-react"
+import { useAuth } from "../hooks/useAuth"
 
 const Layout = ({ children }) => {
+  const { user } = useAuth();
+
   return (
     <div className="min-h-screen bg-yellow-800 flex flex-col justify-between">
       <Header/>
@@ -14,22 +17,26 @@ const Layout = ({ children }) => {
         </div>
       </main>
 
-      <footer className="bg-yellow-900 shadow fixed bottom-0 w-full">
-        <nav className="w-full py-4 px-4">
-          <ul className="flex justify-around text-sm">
-            <li>
-              <a href="/" className="text-yellow-50 hover:text-yellow-400">
-                <FilePlusCorner />
-              </a>
-            </li>
-            <li>
-              <a href="/list" className="text-yellow-50 hover:text-yellow-400">
-                <Book/>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </footer>
+      {user && (
+        <footer className="bg-yellow-900 shadow fixed bottom-0 w-full">
+          <nav className="w-full py-4 px-4">
+            <ul className="flex justify-around text-sm">
+              <li>
+                <a href="/register" className="text-yellow-50 hover:text-yellow-400 flex flex-col items-center gap-1">
+                  <FilePlusCorner />
+                  <span className="text-xs">登録</span>
+                </a>
+              </li>
+              <li>
+                <a href="/list" className="text-yellow-50 hover:text-yellow-400 flex flex-col items-center gap-1">
+                  <Book/>
+                  <span className="text-xs">一覧</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </footer>
+      )}
     </div>
   )
 }
